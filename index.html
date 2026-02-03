@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Valentine Invite 💖</title>
 
 <style>
@@ -22,10 +23,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
 }
 
+/* ================= PAGE LAYOUT ================= */
 .page {
   display: none;
   text-align: center;
@@ -37,68 +39,106 @@ body {
 
 .container {
   background: var(--pink);
-  padding: 30px;
+  padding: 24px;
   border: 4px solid white;
   box-shadow: 0 0 0 4px #ffb6d5;
-  width: 340px;
+  width: min(90vw, 360px);
 }
 
-h1, p {
+p, h1 {
   color: #444;
+  font-size: clamp(14px, 4vw, 16px);
 }
 
+h1 {
+  font-size: clamp(18px, 5vw, 22px);
+}
+
+/* ================= INPUT + BUTTONS ================= */
 input {
-  padding: 8px;
-  width: 200px;
+  padding: 10px;
+  width: 100%;
+  max-width: 220px;
   text-align: center;
   border: 3px solid white;
-  background: #fff;
+  font-size: 14px;
 }
 
 button {
-  margin-top: 15px;
-  padding: 8px 16px;
+  margin-top: 14px;
+  padding: 10px 18px;
   border: 3px solid white;
-  background: #fff;
+  background: white;
   cursor: pointer;
+  font-size: 14px;
 }
 
 button:hover {
   background: #ffeef6;
 }
 
-/* Bunny */
-.bunny {
+/* ================= WRONG PASSWORD SHAKE ================= */
+.shake {
+  animation: shake 0.35s;
+  background: #ffe0ec;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+/* ================= PIXEL BUNNY ================= */
+.pixel-bunny {
   position: absolute;
-  font-size: 32px;
-  animation: hop 1.2s infinite;
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+  background:
+    radial-gradient(circle at 12px 14px, #000 2px, transparent 3px),
+    radial-gradient(circle at 28px 14px, #000 2px, transparent 3px),
+    radial-gradient(circle at 20px 22px, pink 4px, transparent 5px),
+    #fff;
+  border-radius: 6px;
+  z-index: 5;
 }
 
-@keyframes hop {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+.hopping {
+  animation: hopAcross 10s linear infinite;
 }
 
-/* Confetti */
+@keyframes hopAcross {
+  0%   { left: -60px; top: 75%; transform: translateY(0); }
+  20%  { transform: translateY(-18px); }
+  50%  { top: 65%; transform: translateY(0); }
+  80%  { transform: translateY(-18px); }
+  100% { left: 110vw; top: 75%; transform: translateY(0); }
+}
+
+/* ================= CONFETTI ================= */
 .confetti {
   position: fixed;
   top: -10px;
-  width: 8px;
-  height: 8px;
-  background: pink;
-  animation: fall 2s linear forwards;
+  width: 10px;
+  height: 10px;
+  animation: fall 3s linear forwards;
+  z-index: 20;
 }
 
 @keyframes fall {
   to {
-    transform: translateY(110vh) rotate(360deg);
+    transform: translateY(120vh) rotate(720deg);
     opacity: 0;
   }
 }
 
-/* Envelope */
+/* ================= ENVELOPE ================= */
 .envelope {
   width: 200px;
+  max-width: 80%;
   height: 120px;
   background: white;
   margin: 20px auto;
@@ -121,31 +161,31 @@ button:hover {
   margin-top: 15px;
 }
 
-/* No button bunny block */
+/* ================= NO BUTTON BLOCK ================= */
 #noBtn {
   position: relative;
 }
 
-#blocker {
+#blockerBunny {
   position: absolute;
   display: none;
-  font-size: 28px;
+  z-index: 10;
 }
 </style>
 </head>
 
 <body>
 
-<!-- hopping bunny -->
-<div class="bunny" style="bottom:20px; left:20px;">🐰</div>
+<!-- roaming bunny -->
+<div class="pixel-bunny hopping"></div>
 
 <!-- PAGE 1 -->
 <div class="page active" id="page1">
-  <div class="container">
+  <div class="container" id="authBox">
     <h1>enter passcode:</h1>
     <p>our anniversary date</p>
     <input id="passcode" placeholder="MM/DD/YYYY" />
-    <br />
+    <br>
     <button onclick="checkPass()">submit</button>
   </div>
 </div>
@@ -164,8 +204,9 @@ button:hover {
   <div class="container">
     <p class="letter">Will you be my Valentine? 𐔌՞ ܸ.ˬ.ܸ՞𐦯</p>
     <button onclick="yesClick()">yes!</button>
+    <br>
     <button id="noBtn">no = ten butt bites</button>
-    <div id="blocker">🐰</div>
+    <div id="blockerBunny" class="pixel-bunny"></div>
   </div>
 </div>
 
@@ -186,6 +227,7 @@ button:hover {
     <p>1:30pm indoor japanese spa and sauna at Santa Cruz</p>
     <p>4:00pm cable car ride to fancy dinner at Shadowbrook Capitola<br>
     (dress code - business casual, but dress pretty!)</p>
+    <button onclick="restart()">go back to the start</button>
   </div>
 </div>
 
@@ -195,25 +237,33 @@ function showPage(id) {
   document.getElementById(id).classList.add('active');
 }
 
+/* ================= CONFETTI ================= */
 function confettiBurst() {
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 160; i++) {
     const c = document.createElement('div');
     c.className = 'confetti';
     c.style.left = Math.random() * 100 + 'vw';
-    c.style.background = Math.random() > 0.5 ? '#ffd6e8' : '#ffffff';
+    c.style.background =
+      Math.random() > 0.5 ? '#ffd6e8' : '#ffffff';
+    c.style.animationDuration = (2 + Math.random() * 2) + 's';
     document.body.appendChild(c);
-    setTimeout(() => c.remove(), 2000);
+    setTimeout(() => c.remove(), 4000);
   }
 }
 
+/* ================= AUTH ================= */
 function checkPass() {
-  const val = document.getElementById('passcode').value;
-  if (val === "09/30/25") {
+  const box = document.getElementById("authBox");
+  if (passcode.value === "09/30/25") {
     confettiBurst();
     setTimeout(() => showPage('page2'), 900);
+  } else {
+    box.classList.add("shake");
+    setTimeout(() => box.classList.remove("shake"), 400);
   }
 }
 
+/* ================= FLOW ================= */
 function openEnvelope() {
   showPage('page3');
   document.querySelector('.letter').style.display = 'block';
@@ -228,17 +278,25 @@ function nextAgenda() {
   showPage('page5');
 }
 
-// bunny blocks NO button
-const noBtn = document.getElementById('noBtn');
-const blocker = document.getElementById('blocker');
+function restart() {
+  showPage('page1');
+}
 
-noBtn.addEventListener('mouseenter', () => {
-  blocker.style.display = 'block';
-  blocker.style.left = noBtn.offsetLeft + 'px';
-  blocker.style.top = (noBtn.offsetTop - 30) + 'px';
+/* ================= NO BUTTON BLOCK ================= */
+const noBtn = document.getElementById("noBtn");
+const blocker = document.getElementById("blockerBunny");
+
+noBtn.addEventListener("mouseenter", () => {
+  blocker.style.display = "block";
+  const rect = noBtn.getBoundingClientRect();
+  blocker.style.left = rect.left + "px";
+  blocker.style.top = rect.top - 8 + "px";
+});
+
+noBtn.addEventListener("mouseleave", () => {
+  blocker.style.display = "none";
 });
 </script>
 
 </body>
 </html>
-
