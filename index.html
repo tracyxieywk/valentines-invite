@@ -27,15 +27,9 @@ body {
   overflow: hidden;
 }
 
-/* ================= PAGE LAYOUT ================= */
-.page {
-  display: none;
-  text-align: center;
-}
-
-.page.active {
-  display: block;
-}
+/* ================= PAGE ================= */
+.page { display: none; text-align: center; }
+.page.active { display: block; }
 
 .container {
   background: var(--pink);
@@ -45,23 +39,16 @@ body {
   width: min(90vw, 360px);
 }
 
-p, h1 {
-  color: #444;
-  font-size: clamp(14px, 4vw, 16px);
-}
+h1 { font-size: clamp(18px, 5vw, 22px); }
+p { font-size: clamp(14px, 4vw, 16px); color: #444; }
 
-h1 {
-  font-size: clamp(18px, 5vw, 22px);
-}
-
-/* ================= INPUT + BUTTONS ================= */
+/* ================= INPUT & BUTTON ================= */
 input {
   padding: 10px;
   width: 100%;
   max-width: 220px;
   text-align: center;
   border: 3px solid white;
-  font-size: 14px;
 }
 
 button {
@@ -70,18 +57,12 @@ button {
   border: 3px solid white;
   background: white;
   cursor: pointer;
-  font-size: 14px;
 }
 
-button:hover {
-  background: #ffeef6;
-}
+button:hover { background: #ffeef6; }
 
-/* ================= WRONG PASSWORD SHAKE ================= */
-.shake {
-  animation: shake 0.35s;
-  background: #ffe0ec;
-}
+/* ================= SHAKE ================= */
+.shake { animation: shake 0.35s; background: #ffe0ec; }
 
 @keyframes shake {
   0% { transform: translateX(0); }
@@ -96,16 +77,37 @@ button:hover {
   position: absolute;
   width: 48px;
   height: 48px;
-  image-rendering: pixelated;
   background:
-    radial-gradient(circle at 12px 14px, #000 2px, transparent 3px),
-    radial-gradient(circle at 28px 14px, #000 2px, transparent 3px),
-    radial-gradient(circle at 20px 22px, pink 4px, transparent 5px),
+    radial-gradient(circle at 14px 18px, #000 2px, transparent 3px),
+    radial-gradient(circle at 30px 18px, #000 2px, transparent 3px),
+    radial-gradient(circle at 22px 28px, pink 4px, transparent 5px),
     #fff;
   border-radius: 6px;
+  image-rendering: pixelated;
   z-index: 5;
 }
 
+/* EARS */
+.pixel-bunny::before,
+.pixel-bunny::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  background: white;
+  top: -18px;
+  border-radius: 3px;
+}
+
+.pixel-bunny::before {
+  left: 6px;
+}
+
+.pixel-bunny::after {
+  right: 6px;
+}
+
+/* HOP */
 .hopping {
   animation: hopAcross 10s linear infinite;
 }
@@ -156,16 +158,10 @@ button:hover {
   border-top: 60px solid #ffd6e8;
 }
 
-.letter {
-  display: none;
-  margin-top: 15px;
-}
+.letter { display: none; margin-top: 15px; }
 
-/* ================= NO BUTTON BLOCK ================= */
-#noBtn {
-  position: relative;
-}
-
+/* ================= NO BLOCK ================= */
+#noBtn { position: relative; }
 #blockerBunny {
   position: absolute;
   display: none;
@@ -203,8 +199,7 @@ button:hover {
 <div class="page" id="page3">
   <div class="container">
     <p class="letter">Will you be my Valentine? 𐔌՞ ܸ.ˬ.ܸ՞𐦯</p>
-    <button onclick="yesClick()">yes!</button>
-    <br>
+    <button onclick="yesClick()">yes!</button><br>
     <button id="noBtn">no = ten butt bites</button>
     <div id="blockerBunny" class="pixel-bunny"></div>
   </div>
@@ -237,21 +232,18 @@ function showPage(id) {
   document.getElementById(id).classList.add('active');
 }
 
-/* ================= CONFETTI ================= */
 function confettiBurst() {
   for (let i = 0; i < 160; i++) {
     const c = document.createElement('div');
     c.className = 'confetti';
     c.style.left = Math.random() * 100 + 'vw';
-    c.style.background =
-      Math.random() > 0.5 ? '#ffd6e8' : '#ffffff';
+    c.style.background = Math.random() > 0.5 ? '#ffd6e8' : '#ffffff';
     c.style.animationDuration = (2 + Math.random() * 2) + 's';
     document.body.appendChild(c);
     setTimeout(() => c.remove(), 4000);
   }
 }
 
-/* ================= AUTH ================= */
 function checkPass() {
   const box = document.getElementById("authBox");
   if (passcode.value === "09/30/25") {
@@ -263,7 +255,6 @@ function checkPass() {
   }
 }
 
-/* ================= FLOW ================= */
 function openEnvelope() {
   showPage('page3');
   document.querySelector('.letter').style.display = 'block';
@@ -282,7 +273,6 @@ function restart() {
   showPage('page1');
 }
 
-/* ================= NO BUTTON BLOCK ================= */
 const noBtn = document.getElementById("noBtn");
 const blocker = document.getElementById("blockerBunny");
 
@@ -290,7 +280,7 @@ noBtn.addEventListener("mouseenter", () => {
   blocker.style.display = "block";
   const rect = noBtn.getBoundingClientRect();
   blocker.style.left = rect.left + "px";
-  blocker.style.top = rect.top - 8 + "px";
+  blocker.style.top = rect.top - 12 + "px";
 });
 
 noBtn.addEventListener("mouseleave", () => {
