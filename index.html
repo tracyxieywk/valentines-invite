@@ -9,7 +9,6 @@
 :root {
   --pink: #ffd6e8;
   --yellow: #fff4b8;
-  --white: #ffffff;
 }
 
 * {
@@ -27,7 +26,6 @@ body {
   overflow: hidden;
 }
 
-/* ================= PAGE ================= */
 .page { display: none; text-align: center; }
 .page.active { display: block; }
 
@@ -42,7 +40,7 @@ body {
 h1 { font-size: clamp(18px, 5vw, 22px); }
 p { font-size: clamp(14px, 4vw, 16px); color: #444; }
 
-/* ================= INPUT & BUTTON ================= */
+/* INPUT & BUTTONS */
 input {
   padding: 10px;
   width: 100%;
@@ -61,9 +59,8 @@ button {
 
 button:hover { background: #ffeef6; }
 
-/* ================= SHAKE ================= */
+/* SHAKE */
 .shake { animation: shake 0.35s; background: #ffe0ec; }
-
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-4px); }
@@ -72,7 +69,7 @@ button:hover { background: #ffeef6; }
   100% { transform: translateX(0); }
 }
 
-/* ================= PIXEL BUNNY ================= */
+/* PIXEL BUNNY */
 .pixel-bunny {
   position: absolute;
   width: 48px;
@@ -87,7 +84,6 @@ button:hover { background: #ffeef6; }
   z-index: 5;
 }
 
-/* EARS */
 .pixel-bunny::before,
 .pixel-bunny::after {
   content: "";
@@ -99,28 +95,20 @@ button:hover { background: #ffeef6; }
   border-radius: 3px;
 }
 
-.pixel-bunny::before {
-  left: 6px;
-}
+.pixel-bunny::before { left: 6px; }
+.pixel-bunny::after { right: 6px; }
 
-.pixel-bunny::after {
-  right: 6px;
-}
-
-/* HOP */
 .hopping {
   animation: hopAcross 10s linear infinite;
 }
 
 @keyframes hopAcross {
-  0%   { left: -60px; top: 75%; transform: translateY(0); }
-  20%  { transform: translateY(-18px); }
-  50%  { top: 65%; transform: translateY(0); }
-  80%  { transform: translateY(-18px); }
-  100% { left: 110vw; top: 75%; transform: translateY(0); }
+  0% { left: -60px; top: 75%; }
+  50% { top: 65%; }
+  100% { left: 110vw; top: 75%; }
 }
 
-/* ================= CONFETTI ================= */
+/* CONFETTI */
 .confetti {
   position: fixed;
   top: -10px;
@@ -137,7 +125,7 @@ button:hover { background: #ffeef6; }
   }
 }
 
-/* ================= ENVELOPE ================= */
+/* ENVELOPE */
 .envelope {
   width: 200px;
   max-width: 80%;
@@ -160,8 +148,6 @@ button:hover { background: #ffeef6; }
 
 .letter { display: none; margin-top: 15px; }
 
-/* ================= NO BLOCK ================= */
-#noBtn { position: relative; }
 #blockerBunny {
   position: absolute;
   display: none;
@@ -172,7 +158,6 @@ button:hover { background: #ffeef6; }
 
 <body>
 
-<!-- roaming bunny -->
 <div class="pixel-bunny hopping"></div>
 
 <!-- PAGE 1 -->
@@ -198,8 +183,10 @@ button:hover { background: #ffeef6; }
 <!-- PAGE 3 -->
 <div class="page" id="page3">
   <div class="container">
-    <p class="letter">Will you be my Valentine?</p>
-    <p class="letter"> 𐔌՞ ܸ.ˬ.ܸ՞𐦯 </p>
+    <p class="letter">
+      Will you be my Valentine?<br>
+      𐔌՞ ܸ.ˬ.ܸ՞𐦯
+    </p>
     <button onclick="yesClick()">yes!</button><br>
     <button id="noBtn">no = ten butt bites</button>
     <div id="blockerBunny" class="pixel-bunny"></div>
@@ -223,9 +210,11 @@ button:hover { background: #ffeef6; }
     <p>1:30pm indoor japanese spa and sauna at Santa Cruz</p>
     <p>4:00pm cable car ride to fancy dinner at Shadowbrook Capitola<br>
     (dress code - business casual, but dress pretty!)</p>
+    <p>ice cream after! and maybe the beach (if weather permits)</p>
     <button onclick="restart()">go back to the start</button>
   </div>
 </div>
+
 
 <script>
 function showPage(id) {
@@ -239,7 +228,6 @@ function confettiBurst() {
     c.className = 'confetti';
     c.style.left = Math.random() * 100 + 'vw';
     c.style.background = Math.random() > 0.5 ? '#ffd6e8' : '#ffffff';
-    c.style.animationDuration = (2 + Math.random() * 2) + 's';
     document.body.appendChild(c);
     setTimeout(() => c.remove(), 4000);
   }
