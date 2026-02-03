@@ -1,1 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Valentine Invite 💖</title>
+
+<style>
+:root {
+  --pink: #ffd6e8;
+  --yellow: #fff4b8;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Courier New", monospace;
+}
+
+body {
+  margin: 0;
+  background: var(--yellow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.page {
+  display: none;
+  text-align: center;
+}
+
+.page.active {
+  display: block;
+}
+
+.container {
+  background: var(--pink);
+  padding: 30px;
+  border: 4px solid white;
+  box-shadow: 0 0 0 4px #ffb6d5;
+  width: 340px;
+}
+
+h1, p {
+  color: #444;
+}
+
+input {
+  padding: 8px;
+  width: 200px;
+  text-align: center;
+  border: 3px solid white;
+  background: #fff;
+}
+
+button {
+  margin-top: 15px;
+  padding: 8px 16px;
+  border: 3px solid white;
+  background: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ffeef6;
+}
+
+/* Bunny */
+.bunny {
+  position: absolute;
+  font-size: 32px;
+  animation: hop 1.2s infinite;
+}
+
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* Confetti */
+.confetti {
+  position: fixed;
+  top: -10px;
+  width: 8px;
+  height: 8px;
+  background: pink;
+  animation: fall 2s linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Envelope */
+.envelope {
+  width: 200px;
+  height: 120px;
+  background: white;
+  margin: 20px auto;
+  position: relative;
+  border: 3px solid #ffb6d5;
+}
+
+.envelope::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-top: 60px solid #ffd6e8;
+}
+
+.letter {
+  display: none;
+  margin-top: 15px;
+}
+
+/* No button bunny block */
+#noBtn {
+  position: relative;
+}
+
+#blocker {
+  position: absolute;
+  display: none;
+  font-size: 28px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- hopping bunny -->
+<div class="bunny" style="bottom:20px; left:20px;">🐰</div>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <div class="container">
+    <h1>enter passcode:</h1>
+    <p>our anniversary date</p>
+    <input id="passcode" placeholder="MM/DD/YYYY" />
+    <br />
+    <button onclick="checkPass()">submit</button>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <div class="container">
+    <p>do you wanna maybeeee open me? 𑣲₍ ᐢ. .ᐢ₎</p>
+    <div class="envelope"></div>
+    <button onclick="openEnvelope()">open</button>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <div class="container">
+    <p class="letter">Will you be my Valentine? 𐔌՞ ܸ.ˬ.ܸ՞𐦯</p>
+    <button onclick="yesClick()">yes!</button>
+    <button id="noBtn">no = ten butt bites</button>
+    <div id="blocker">🐰</div>
+  </div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="page4">
+  <div class="container">
+    <p>YAYY! ૮꒰˶ᵔ ᗜ ᵔ˶꒱ა</p>
+    <p>congratulations! continue to view the agenda for Valentine's Day</p>
+    <button onclick="nextAgenda()">continue</button>
+  </div>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page" id="page5">
+  <div class="container">
+    <div class="envelope"></div>
+    <p><strong>FEB 20th 2026</strong></p>
+    <p>1:30pm indoor japanese spa and sauna at Santa Cruz</p>
+    <p>4:00pm cable car ride to fancy dinner at Shadowbrook Capitola<br>
+    (dress code - business casual, but dress pretty!)</p>
+  </div>
+</div>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function confettiBurst() {
+  for (let i = 0; i < 40; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = Math.random() > 0.5 ? '#ffd6e8' : '#ffffff';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 2000);
+  }
+}
+
+function checkPass() {
+  const val = document.getElementById('passcode').value;
+  if (val === "09/30/25") {
+    confettiBurst();
+    setTimeout(() => showPage('page2'), 900);
+  }
+}
+
+function openEnvelope() {
+  showPage('page3');
+  document.querySelector('.letter').style.display = 'block';
+}
+
+function yesClick() {
+  confettiBurst();
+  showPage('page4');
+}
+
+function nextAgenda() {
+  showPage('page5');
+}
+
+// bunny blocks NO button
+const noBtn = document.getElementById('noBtn');
+const blocker = document.getElementById('blocker');
+
+noBtn.addEventListener('mouseenter', () => {
+  blocker.style.display = 'block';
+  blocker.style.left = noBtn.offsetLeft + 'px';
+  blocker.style.top = (noBtn.offsetTop - 30) + 'px';
+});
+</script>
+
+</body>
+</html>
 
